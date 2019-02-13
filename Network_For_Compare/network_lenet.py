@@ -11,7 +11,7 @@ import time
 
 sess = tf.InteractiveSession()
 
-Epoch = 200
+Epoch = 300
 Test_epoch=10
 start_learning_rate = 1e-3
 constant_initializer_parameter=0.1

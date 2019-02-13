@@ -1,15 +1,18 @@
 import os
 import operator
 import random
-# import argparse
+# import argparses
 
-# training_path = "D:/PaperPreparation/processed_result_CT/train/"
-# test_path="D:/PaperPreparation/processed_result_CT/test/"
+# training_path = "../lung_data_mean_std/train/"
+# test_path="../lung_data_mean_std/test/"
 
-training_path = "D:/PaperPreparation/processed_result_avg_var/train/"
-test_path="D:/PaperPreparation/processed_result_avg_var/test/"
-lamda_training_path = 'D:/PaperPreparation/Eigen_Value/train/'
-lamda_test_path = 'D:/PaperPreparation/Eigen_Value/test/'
+training_path = "../PaperPreparation/processed_result_avg_var/train/"
+test_path="../PaperPreparation/processed_result_avg_var/test/"
+lamda_training_path = '../PaperPreparation/Eigen_Value/train/'
+lamda_test_path = '../PaperPreparation/Eigen_Value/test/'
+
+# training_path = "../lung_data/train/"
+# test_path="../lung_data/test/"
 
 def extractFiles(path, training=False, test=False):
     if training:

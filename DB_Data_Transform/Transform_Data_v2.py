@@ -1,5 +1,5 @@
 import numpy as np
-import FileNameExtraction as FNE
+import FileNameExtraction_capsnet as FNE
 
 training_percentage = 0.99
 

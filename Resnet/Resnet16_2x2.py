@@ -1,3 +1,6 @@
+import sys
+
+sys.path.append('../DB_Data_Transform/')
 import tensorflow as tf
 import Transform_Data_v1 as td
 import numpy as np
@@ -7,7 +10,7 @@ import os
 # Weight Initializer is xavier initializer
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 config=tf.ConfigProto()
 config.gpu_options.allow_growth=True
@@ -27,13 +30,13 @@ counter=0
 training_batch_size = 128
 test_batch_size = 128
 
-Load_Data=False
-Training=True
+Load_Data=True
+Training=False
 Early_stop=False
 initializer_uniform = True
 
-model_name='Resnet16_2x2'
-checkpoint_dir='D:/Checkpoint_new/'+model_name+'/'
+model_name='Resnet16_2x2_test'
+checkpoint_dir='../'+model_name+'/'
 
 len_training_data, validation, test = td.Initialization(test_batch_size)
 iteration_time = int(len_training_data / training_batch_size)
@@ -281,9 +284,10 @@ if Training:
         print(log, file=logfile)
         logfile.close()
 
-        writer_training.add_summary(result_training, e)
-        writer_validation.add_summary(result_validation,e)
-        saver.save(sess,checkpoint_dir+ model_name + '.ckpt',global_step=e)
+        if e % 5 == 0:
+            writer_training.add_summary(result_training, e)
+            writer_validation.add_summary(result_validation,e)
+            saver.save(sess,checkpoint_dir+ model_name + '.ckpt',global_step=e)
 
         if Early_stop:
             if validation_accuracy > max_val_accuracy:

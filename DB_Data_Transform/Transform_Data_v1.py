@@ -1,12 +1,12 @@
 import numpy as np
-import FileNameExtraction as FNE
+import FileNameExtraction_capsnet as FNE
 
 training_percentage = 0.99
 
 training = []
 
-fileNameClasses_training=FNE.extractFiles(FNE.training_path)
-fileNameClasses_test=FNE.extractFiles(FNE.test_path)
+fileNameClasses_training=FNE.extractFiles(FNE.training_path, training=True)
+fileNameClasses_test=FNE.extractFiles(FNE.test_path, test=True)
 
 def split_into_trainingFiles_and_validationFiles(dataSet, trainingFiles_percentage):
     fileForTraining,fileForValidation=[],[]
@@ -16,12 +16,16 @@ def split_into_trainingFiles_and_validationFiles(dataSet, trainingFiles_percenta
 
     return fileForTraining,fileForValidation
 
-def extractInformation(fileName):
+def extractInformation(fileName, training):
     image,label=[],[]
     temp_image=[]
     line_counter=0
 
-    file=open(FNE.training_path+fileName)
+    if training:
+        dir = FNE.training_path
+    else:
+        dir = FNE.test_path
+    file=open(dir+fileName)
     for line in file:
         if line.index('\n')==1:
             label.append(int(line))
@@ -55,7 +59,7 @@ def collectInformation(fileNameClass,training=False, validation=False):
             class_number=0
             class_name = ''
             for single_fileName in single_class:
-                temp_image,temp_label=extractInformation(single_fileName)
+                temp_image,temp_label=extractInformation(single_fileName, training=True)
                 class_number += len(temp_image)
                 class_name = str(locate_label_position(temp_label[0]))
                 for item_temp_image,item_temp_label in zip(temp_image,temp_label):
@@ -70,7 +74,7 @@ def collectInformation(fileNameClass,training=False, validation=False):
             class_number=0
             class_name=''
             for single_fileName in single_class:
-                temp_image,temp_label=extractInformation(single_fileName)
+                temp_image,temp_label=extractInformation(single_fileName, training=True)
                 class_number += len(temp_image)
                 class_name = str(locate_label_position(temp_label[0]))
                 for item_temp_image, item_temp_label in zip(temp_image, temp_label):
@@ -85,7 +89,7 @@ def collectInformation(fileNameClass,training=False, validation=False):
             class_number = 0
             class_name = ''
             for single_fileName in single_class:
-                temp_image, temp_label = extractInformation(single_fileName)
+                temp_image, temp_label = extractInformation(single_fileName, training=False)
                 class_number += len(temp_image)
                 class_name = str(locate_label_position(temp_label[0]))
                 for item_temp_image, item_temp_label in zip(temp_image, temp_label):
